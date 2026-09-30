@@ -5,4 +5,5 @@
 * ShoppingList.Load() - items.Add(new Item(parts[1], int.Parse(parts[0])));
     Check that there are 2 parts and use int.TryParse() to make sure the price is correct before adding them to the new Item.
 * ShoppingList.Load() - Item number and Item.Name don't appear on screen after ShoppingList.Print()
-    Changed '\n' to Environment.NewLine, so the lines are split on "\r\n" or '\n' depending on what the current system uses as newline.
+    Trim away any whitespace that may occur in any of the parts split out from each line.
+    I thought about changing '\n' to Environment.NewLine when splitting the file into lines, but that would miss any other whitespace characters that could potentially create a problem.

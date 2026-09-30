@@ -1,4 +1,6 @@
 // Holds the items and takes care of loading and saving them.
+using System.Security;
+
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
@@ -89,8 +91,7 @@ class ShoppingList
         try
         {
             text = File.ReadAllText(path);
-            // Environment.NewLine works better than '\n' to split a file into lines
-            string[] lines = text.Split(Environment.NewLine);
+            string[] lines = text.Split('\n');
 
             foreach (string line in lines)
             {
@@ -99,10 +100,19 @@ class ShoppingList
                 // Empty lines won't work.
                 if (parts.Length >= 2)
                 {
+                    // Trim away the '\r' at the end of the itemname and
+                    // any other whitespace that may occur.
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        parts[i] = parts[i].Trim();
+                    }
+
                     // What if the price is in a wrong format.
                     int price;
                     if (int.TryParse(parts[0], out price))
+                    {
                         items.Add(new Item(parts[1], price));
+                    }
                 }
             }
         }
