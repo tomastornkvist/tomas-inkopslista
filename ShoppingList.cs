@@ -27,7 +27,8 @@ class ShoppingList
     {
         int sum = 0;
 
-        for (int i = 1; i < items.Count; i++)
+        // Starting loop at 0 to begin with the first item in the list.
+        for (int i = 0; i < items.Count; i++)
         {
             sum += items[i].Price;
         }
