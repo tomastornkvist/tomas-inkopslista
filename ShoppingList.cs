@@ -81,13 +81,27 @@ class ShoppingList
     // Reads the file back into the list.
     public void Load()
     {
-        string text = File.ReadAllText(path);
-        string[] lines = text.Split('\n');
+        string text;
 
-        foreach (string line in lines)
+        try
         {
-            string[] parts = line.Split(';');
-            items.Add(new Item(parts[1], int.Parse(parts[0])));
+            text = File.ReadAllText(path);
+            string[] lines = text.Split('\n');
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(';');
+                items.Add(new Item(parts[1], int.Parse(parts[0])));
+            }
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Inköpslistan finns inte. Försöker skapa den.");
+            Save();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Ett oväntat fel har inträffat vid läsning av inköpslistan: {e.Message}");
         }
     }
 }
