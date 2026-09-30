@@ -91,7 +91,12 @@ class ShoppingList
             foreach (string line in lines)
             {
                 string[] parts = line.Split(';');
-                items.Add(new Item(parts[1], int.Parse(parts[0])));
+                if (parts.Length >= 2)
+                {
+                    int price;
+                    if (int.TryParse(parts[0], out price))
+                        items.Add(new Item(parts[1], price));
+                }
             }
         }
         catch (FileNotFoundException)
