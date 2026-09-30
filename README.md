@@ -7,9 +7,13 @@
 * ShoppingList.Load() - Item number and Item.Name don't appear on screen after ShoppingList.Print()
     Trim away any whitespace that may occur in any of the parts split out from each line.
     I thought about changing '\n' to Environment.NewLine when splitting the file into lines, but that would miss any other whitespace characters that could potentially create a problem.
-* Program.cs - int choice = int.Parse(Console.ReadLine());
+* Program.cs (Menu) - int choice = int.Parse(Console.ReadLine());
     Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer.
-* Program.cs - int price = int.Parse(Console.ReadLine());
+* Program.cs (Add Item block) - int price = int.Parse(Console.ReadLine());
     Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer for the price.
-* Program.cs - string name = Console.ReadLine();
+* Program.cs (Add Item block) - string name = Console.ReadLine();
     Checking that name isn't empty before moving on.
+* Program.cs (Remove Item block) - int number = int.Parse(Console.ReadLine());
+    Using int.TryParse() to avoid crashing when the user enters an invalid number.
+* Program.cs (Remove Item block) - list.RemoveAt(number);
+    Added a try/catch block to handle ArgumentOutOfRangeException.

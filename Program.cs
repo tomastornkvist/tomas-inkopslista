@@ -26,7 +26,7 @@ while (true)
         name = name.Trim();
         if (name.Length == 0)
         {
-            Console.WriteLine("Please enter a valid name for the item.");
+            Console.WriteLine("Var vänlig och ange ett namn på varan.");
             continue;
         }
 
@@ -40,14 +40,28 @@ while (true)
         }
         else
         {
-            Console.WriteLine("Please enter a valid integer number for the price of the item.");
+            Console.WriteLine("Var vänlig och ange ett heltal som pris på varan.");
         }
     }
     else if (choice == 2)
     {
         Console.Write("Nummer: ");
-        int number = int.Parse(Console.ReadLine());
-        list.RemoveAt(number);
+        int number;
+        if (int.TryParse(Console.ReadLine(), out number))
+        {
+            try
+            {
+                list.RemoveAt(number);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Varan finns inte i listan.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Var vänlig och ange ett giltigt nummer.");
+        }
     }
     else if (choice == 3)
     {
