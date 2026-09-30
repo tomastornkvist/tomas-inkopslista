@@ -83,6 +83,9 @@ class ShoppingList
     {
         string text;
 
+        // Added try/catch to handle when items.txt doesn't exist.
+        // The catch (Exception e) helped me identify the problem
+        // with the empty line at the end of items.txt.
         try
         {
             text = File.ReadAllText(path);
@@ -91,8 +94,11 @@ class ShoppingList
             foreach (string line in lines)
             {
                 string[] parts = line.Split(';');
+
+                // Empty lines won't work.
                 if (parts.Length >= 2)
                 {
+                    // What if the price is in a wrong format.
                     int price;
                     if (int.TryParse(parts[0], out price))
                         items.Add(new Item(parts[1], price));
@@ -101,11 +107,13 @@ class ShoppingList
         }
         catch (FileNotFoundException)
         {
+            // Catch when items.txt doesn't exist.
             Console.WriteLine("Inköpslistan finns inte. Försöker skapa den.");
             Save();
         }
         catch (Exception e)
         {
+            // Catch unknown exceptions, so they can be reported and handled.
             Console.WriteLine($"Ett oväntat fel har inträffat vid läsning av inköpslistan: {e.Message}");
         }
     }
