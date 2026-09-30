@@ -21,9 +21,27 @@ while (true)
     {
         Console.Write("Namn: ");
         string name = Console.ReadLine();
+
+        // Make sure the new item has a name.
+        name = name.Trim();
+        if (name.Length == 0)
+        {
+            Console.WriteLine("Please enter a valid name for the item.");
+            continue;
+        }
+
         Console.Write("Pris: ");
-        int price = int.Parse(Console.ReadLine());
-        list.Add(new Item(name, price));
+
+        // Use int.TryParse() to avoid a crash when user enters something other than an integer.
+        int price;
+        if (int.TryParse(Console.ReadLine(), out price))
+        {
+            list.Add(new Item(name, price));
+        }
+        else
+        {
+            Console.WriteLine("Please enter a valid integer number for the price of the item.");
+        }
     }
     else if (choice == 2)
     {
