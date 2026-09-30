@@ -89,7 +89,8 @@ class ShoppingList
         try
         {
             text = File.ReadAllText(path);
-            string[] lines = text.Split('\n');
+            // Environment.NewLine works better than '\n' to split a file into lines
+            string[] lines = text.Split(Environment.NewLine);
 
             foreach (string line in lines)
             {
