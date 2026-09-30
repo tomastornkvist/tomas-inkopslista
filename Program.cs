@@ -46,9 +46,12 @@ while (true)
     else if (choice == 2)
     {
         Console.Write("Nummer: ");
+
+        // Use int.TryParse() to avoid a crash when user enters something other than an integer.
         int number;
         if (int.TryParse(Console.ReadLine(), out number))
         {
+            // Make sure there's no crash when the user enters the wrong number.
             try
             {
                 list.RemoveAt(number);
