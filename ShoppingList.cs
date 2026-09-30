@@ -72,10 +72,20 @@ class ShoppingList
 
         try
         {
-            File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
+            // Use Environment.NewLine for line breaks, both here and in Load(), to follow the system standard.
+            File.WriteAllText(path, string.Join(Environment.NewLine, lines) + Environment.NewLine);
         }
-        catch
+
+        // Catch specific exceptions, not just the universal Exception.
+        catch (IOException)
         {
+            Console.WriteLine("Ett filsystemfel orsakade att filen inte kunde sparas.");
+            return;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Console.WriteLine("Det saknas rättigheter för att spara filen.");
+            return;
         }
 
         Console.WriteLine("Listan är sparad.");
@@ -92,22 +102,17 @@ class ShoppingList
         try
         {
             text = File.ReadAllText(path);
-            string[] lines = text.Split('\n');
+
+            // Use Environment.NewLine for line breaks, both here and in Save(), to follow the system standard.
+            string[] lines = text.Split(Environment.NewLine);
 
             foreach (string line in lines)
             {
                 string[] parts = line.Split(';');
 
-                // Empty lines won't work.
+                // We need at least price and name.
                 if (parts.Length >= 2)
                 {
-                    // Trim away the '\r' at the end of the itemname and
-                    // any other whitespace that may occur.
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        parts[i] = parts[i].Trim();
-                    }
-
                     // What if the price is in a wrong format.
                     int price;
                     if (int.TryParse(parts[0], out price))
@@ -122,11 +127,6 @@ class ShoppingList
             // Catch when items.txt doesn't exist.
             Console.WriteLine("Inköpslistan finns inte. Försöker skapa den.");
             Save();
-        }
-        catch (Exception e)
-        {
-            // Catch unknown exceptions, so they can be reported and handled.
-            Console.WriteLine($"Ett oväntat fel har inträffat vid läsning av inköpslistan: {e.Message}");
         }
     }
 }

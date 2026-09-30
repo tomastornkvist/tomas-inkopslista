@@ -6,18 +6,19 @@
     Use int.TryParse() to make sure the price is an integer.
 3. ShoppingList.Load() - items.Add(new Item(parts[1], int.Parse(parts[0])));
     Check that there are 2 parts before adding them to the new Item.
-4. ShoppingList.Load() - Item number and Item.Name don't appear on screen after ShoppingList.Print()
-    Trim away any whitespace that may occur in any of the parts split out from each line.
-    I thought about changing '\n' to Environment.NewLine when splitting the file into lines, but that would miss any other whitespace characters that could potentially create a problem.
-5. Program.cs (Menu) - int choice = int.Parse(Console.ReadLine());
+4. ShoppingList.Load()/Save() - Item number and Item.Name don't appear on screen after ShoppingList.Print()
+    Using Environment.NewLine for line breaks, to follow the system standard and to make sure it's the same when saving and loading the file.
+5. ShoppingList.Save() - File.WriteAllText(), Empty catch
+    Since I would have to cheat and remove or change the access rights to the working directory while the application is running to trigger an exception for File.WriteAllText(), I didn't bother to trigger it. Instead I asked Claude for the most common exceptions from the call.
+6. Program.cs (Menu) - int choice = int.Parse(Console.ReadLine());
     Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer.
-6. Program.cs (Add Item block) - int price = int.Parse(Console.ReadLine());
+7. Program.cs (Add Item block) - int price = int.Parse(Console.ReadLine());
     Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer for the price.
-7. Program.cs (Add Item block) - string name = Console.ReadLine();
+8. Program.cs (Add Item block) - string name = Console.ReadLine();
     Checking that name isn't empty before moving on.
-8. Program.cs (Remove Item block) - int number = int.Parse(Console.ReadLine());
+9. Program.cs (Remove Item block) - int number = int.Parse(Console.ReadLine());
     Using int.TryParse() to avoid crashing when the user enters an invalid number.
-9. Program.cs (Remove Item block) - list.RemoveAt(number);
+10. Program.cs (Remove Item block) - list.RemoveAt(number);
     Added a try/catch block to handle ArgumentOutOfRangeException.
-10. ShoppingList.Total() - The total sum wasn't calculated correctly.
+11. ShoppingList.Total() - The total sum wasn't calculated correctly.
     Starting the for-loop at 0 instead of 1, since arrays and lists use 0-based index.
