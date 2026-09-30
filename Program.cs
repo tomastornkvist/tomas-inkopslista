@@ -13,7 +13,9 @@ while (true)
     Console.WriteLine("5. Avsluta");
     Console.Write("Välj: ");
 
-    int choice = int.Parse(Console.ReadLine());
+    // Use int.TryParse() to avoid a crash when user enters something other than an integer.
+    int choice;
+    int.TryParse(Console.ReadLine(), out choice);
 
     if (choice == 1)
     {
