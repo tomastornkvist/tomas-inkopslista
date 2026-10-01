@@ -1,6 +1,4 @@
 // Holds the items and takes care of loading and saving them.
-using System.Security;
-
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
@@ -72,7 +70,8 @@ class ShoppingList
 
         try
         {
-            // Use Environment.NewLine for line breaks, both here and in Load(), to follow the system standard.
+            // Use Environment.NewLine for line breaks, both here
+            // and in Load(), to follow the system standard.
             File.WriteAllText(path, string.Join(Environment.NewLine, lines) + Environment.NewLine);
         }
 
@@ -103,7 +102,8 @@ class ShoppingList
         {
             text = File.ReadAllText(path);
 
-            // Use Environment.NewLine for line breaks, both here and in Save(), to follow the system standard.
+            // Use Environment.NewLine for line breaks, both here
+            // and in Save(), to follow the system standard.
             string[] lines = text.Split(Environment.NewLine);
 
             foreach (string line in lines)

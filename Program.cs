@@ -13,7 +13,8 @@ while (true)
     Console.WriteLine("5. Avsluta");
     Console.Write("Välj: ");
 
-    // Use int.TryParse() to avoid a crash when user enters something other than an integer.
+    // Use int.TryParse() to avoid a crash when user
+    // enters something other than an integer.
     int choice;
     int.TryParse(Console.ReadLine(), out choice);
 
@@ -32,7 +33,8 @@ while (true)
 
         Console.Write("Pris: ");
 
-        // Use int.TryParse() to avoid a crash when user enters something other than an integer.
+        // Use int.TryParse() to avoid a crash when user
+        // enters something other than an integer.
         int price;
         if (int.TryParse(Console.ReadLine(), out price))
         {
@@ -47,7 +49,8 @@ while (true)
     {
         Console.Write("Nummer: ");
 
-        // Use int.TryParse() to avoid a crash when user enters something other than an integer.
+        // Use int.TryParse() to avoid a crash when user
+        // enters something other than an integer.
         int number;
         if (int.TryParse(Console.ReadLine(), out number))
         {

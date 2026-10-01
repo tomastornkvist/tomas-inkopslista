@@ -22,3 +22,4 @@
     Added a try/catch block to handle ArgumentOutOfRangeException.
 11. ShoppingList.Total() - The total sum wasn't calculated correctly.
     Starting the for-loop at 0 instead of 1, since arrays and lists use 0-based index.
+---
