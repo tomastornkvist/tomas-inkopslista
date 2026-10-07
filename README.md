@@ -1,25 +1,71 @@
 # Shopping list
 ## Bugs & fixes
-1. ShoppingList.Load() - string text = File.ReadAllText(path);
-    This needs a try/catch, because we can't guarantee that the file exists. If the file doesn't exist, it's created. I also asked Claude to change the working directory for the debugger from ".\bin\Debug\net10.0" to "." and he added Properties\launchSettings.json, that sets "workingDirectory" to "$(ProjectDir)", so I can manage items.txt in the project folder instead of deep in a debug folder.
-2. ShoppingList.Load() - items.Add(new Item(parts[1], int.Parse(parts[0])));
-    Use int.TryParse() to make sure the price is an integer.
-3. ShoppingList.Load() - items.Add(new Item(parts[1], int.Parse(parts[0])));
-    Check that there are 2 parts before adding them to the new Item.
-4. ShoppingList.Load()/Save() - Item number and Item.Name don't appear on screen after ShoppingList.Print()
-    Using Environment.NewLine for line breaks, to follow the system standard and to make sure it's the same when saving and loading the file.
-5. ShoppingList.Save() - File.WriteAllText(), Empty catch
-    Since I would have to cheat and remove or change the access rights to the working directory while the application is running to trigger an exception for File.WriteAllText(), I didn't bother to trigger it. Instead I asked Claude for the most common exceptions from the call.
-6. Program.cs (Menu) - int choice = int.Parse(Console.ReadLine());
-    Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer.
-7. Program.cs (Add Item block) - int price = int.Parse(Console.ReadLine());
-    Using int.TryParse() instead of int.Parse() to avoid crashing when the user inputs something other than an integer for the price.
-8. Program.cs (Add Item block) - string name = Console.ReadLine();
-    Checking that name isn't empty before moving on.
-9. Program.cs (Remove Item block) - int number = int.Parse(Console.ReadLine());
-    Using int.TryParse() to avoid crashing when the user enters an invalid number.
-10. Program.cs (Remove Item block) - list.RemoveAt(number);
-    Added a try/catch block to handle ArgumentOutOfRangeException.
-11. ShoppingList.Total() - The total sum wasn't calculated correctly.
-    Starting the for-loop at 0 instead of 1, since arrays and lists use 0-based index.
+1. `ShoppingList.Load()` -> `string text = File.ReadAllText(path)`
+
+    This threw a *FileNotFoundException* when I ran the code with the debugger, because the debugger used './bin/debug/net10.0' as working directory and therefore couldn't find 'items.txt'.
+
+    I added a *try*/*catch*, because we can't guarantee that the file exists. If the file doesn't exist, it's created in the *catch* block.
+
+    I also asked Claude to change the working directory for the debugger from '.\bin\Debug\net10.0' to '.' and he added 'Properties\launchSettings.json', that sets "workingDirectory" to "$(ProjectDir)", so 'items.txt' can be reached when using the debugger.
+
+2. `ShoppingList.Load()` - `items.Add(new Item(parts[1], int.Parse(parts[0])));`
+
+    This threw an *IndexOutOfRangeException* on the last row of 'items.txt', because the newline at the end of 'items.txt' is basically an empty line. The empty line becomes an array containing 1 empty string returned from `line.Split(';');`
+
+    The solution is to check that there are 2 parts of the array before adding them to the new Item.
+
+3. `ShoppingList.Load()` - `items.Add(new Item(parts[1], int.Parse(parts[0])));`
+
+    If the price is wrong in 'items.txt', this throws a *FormatException*.
+
+    I added `int.TryParse(parts[0], out price)` to avoid adding an item with an invalid price.
+
+    *This may not be part of the exercise and may never happen as long as 'items.txt' isn't modified outside our application, but in a real application, I'd handle it anyway, perhaps with an error message and a log instead of silence.*
+
+4. `ShoppingList.Load()/Save()` - Item number and `Item.Name` don't appear on screen after `ShoppingList.Print()`
+
+    This happened because 'items.txt' is saved with "\r\n" as line breaks and loaded with only "\n". That means that `Item.Name` ends with '\r', which moves the cursor to the beginning of the line, so the text that was already written is overwritten by `Item.Price`.
+
+    I chose to use Environment.NewLine for line breaks, to follow the operating system standard and to make sure it's the same when saving and loading the file.
+
+5. `ShoppingList.Save()` - `File.WriteAllText()`, Empty catch
+    Since I would have to cheat and remove or change the access rights to the working directory while the application is running to trigger an exception for `File.WriteAllText()`, I didn't bother to trigger it.
+
+    Because I'm not allowed to use *Exception*, which I probably would in a real application, since it's `Exception.Message` I'd be interested in in this case, I instead asked Claude for the most common exceptions from the call. Therefore I added *IOException* and *UnauthorizedAccessException*.
+
+6. Program.cs (Menu) - `int choice = int.Parse(Console.ReadLine());`
+
+    If the user enters anything other than an integer, it throws a *FormatException*.
+
+    Using `int.TryParse()` instead of `int.Parse()` to avoid crashing when the user inputs something other than an integer. When the user enters something invalid, *choice* is 0 which isn't a valid menu choice, so there's no need to check the return value of `int.TryParse()`.
+
+7. Program.cs (Add Item block) - `int price = int.Parse(Console.ReadLine());`
+
+    If the user enters anything other than an integer, it throws a *FormatException*.
+
+    Using `int.TryParse()` instead of `int.Parse()` to avoid crashing when the user inputs something other than an integer for the price. Using the return value from `int.TryParse()` to decide if the item should be added or the user needs to be informed of their mistake.
+
+8. Program.cs (Add Item block) - `string name = Console.ReadLine();`
+
+    If the user enters nothing or whitespace, the name of the item would be empty, and that's not acceptable.
+
+    I trimmed away all whitespace and added a check that name isn't empty before adding the item. If name is empty, the user is informed.
+
+9. Program.cs (Remove Item block) - `int number = int.Parse(Console.ReadLine());`
+
+    If the user enters anything other than an integer, it throws a *FormatException*.
+
+    Using `int.TryParse()` to avoid crashing when the user enters an invalid number. If the function returns false, the user is informed.
+
+10. Program.cs (Remove Item block) - `list.RemoveAt(number);`
+
+    Throws an *ArgumentOutOfRangeException* exception when the user tries to remove an item that isn't in the list.
+
+    Added a *try*/*catch* block to inform the user of their mistake rather than crashing the application.
+
+11. `ShoppingList.Total()` - The total sum wasn't calculated correctly.
+
+    The for-loop that adds all the prices started at index 1, which misses the first item, since lists and arrays use a 0-based index in C#.
+
+    Starting the for-loop at 0 instead of 1.
 ---
