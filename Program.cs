@@ -23,14 +23,6 @@ while (true)
         Console.Write("Namn: ");
         string name = Console.ReadLine();
 
-        // Make sure the new item has a name.
-        name = name.Trim();
-        if (name.Length == 0)
-        {
-            Console.WriteLine("Var vänlig och ange ett namn på varan.");
-            continue;
-        }
-
         Console.Write("Pris: ");
 
         // Use int.TryParse() to avoid a crash when user
@@ -38,7 +30,22 @@ while (true)
         int price;
         if (int.TryParse(Console.ReadLine(), out price))
         {
-            list.Add(new Item(name, price));
+            try
+            {
+                list.Add(new Item(name, price));
+            }
+
+            // Catch the ArgumentOutOfRangeException first, because
+            // otherwise ArgumentException would catch both of them
+            // if the compiler had allowed it.
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Varans pris kan inte vara negativt.");
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Varan måste ha ett namn.");
+            }
         }
         else
         {
