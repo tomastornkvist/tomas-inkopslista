@@ -1,5 +1,7 @@
 # Shopping list
+
 ## Bugs & fixes
+
 1. `ShoppingList.Load()` -> `string text = File.ReadAllText(path)`
 
     This threw a *FileNotFoundException* when I ran the code with the debugger, because the debugger used './bin/debug/net10.0' as working directory and therefore couldn't find 'items.txt'.
@@ -90,15 +92,21 @@
     Starting the for-loop at 0 instead of 1.
 
     Commit hash: 8e81ecd98425a16a7ddccd48efb4ec9117b3d3b3
+
 ---
+
 ## Extending functionality
+
 ### Item makes sure it has a name and a valid price
+
 The Item constructor throws an *ArgumentException* if name is empty after all whitespace has been trimmed from the beginning and end of the string. It also throws an *ArgumentOutOfRangeException* if the price is negative.
 
 The setters for Name and Price have been removed, so it's not possible to set faulty values after the Item has been created.
 
 Program.cs catches both exceptions. It has to catch *ArgumentOutOfRangeException* first, because it inherits *ArgumentException*. If the compiler allowed *ArgumentException* to be caught first, it would catch both.
+
 ### Budget
+
 Added Budget to `ShoppingList`.
 
 `ShoppingList.Add()` returns true when a new item is added and false if it's not added because it would break the budget.
