@@ -112,3 +112,41 @@ Added Budget to `ShoppingList`.
 `ShoppingList.Add()` returns true when a new item is added and false if it's not added because it would break the budget.
 
 I chose to go with returning a boolean to handle the budget control, because it's simple and logical. The addition of the item failed, therefore it returned false. It's easy to handle in Program.cs, there's no need to catch an exception.
+
+---
+
+## UML diagram
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Program.cs {
+        top-level statements
+    }
+
+    class Item {
+        +string Name
+        +int Price
+        +Item(string name, int price)
+        +ToString() string
+    }
+
+    class ShoppingList {
+        -List~Item~ items
+        -string path
+        +int budget
+        +ShoppingList(string path, int budget)
+        +Add(Item item) bool
+        +RemoveAt(int number) void
+        +Total() int
+        +Find(string name) Item
+        +Print() void
+        +Save() void
+        +Load() void
+    }
+
+    Program.cs ..> ShoppingList : Creates and uses
+    Program.cs ..> Item : Creates
+    ShoppingList "1" o-- "0..*" Item : Uses in a list
+```
