@@ -3,19 +3,19 @@ class ShoppingList
 {
     private List<Item> items = new List<Item>();
     private string path;
-    public int Budget { get; private set; }
+    public int budget { get; private set; }
 
     public ShoppingList(string path, int budget)
     {
         this.path = path;
-        Budget = budget;
+        this.budget = budget;
     }
 
     // Returns true if the item is added to the list and
     // false if there's no room for it in the budget.
     public bool Add(Item item)
     {
-        if (Total() + item.Price > Budget)
+        if (Total() + item.Price > budget)
             return false;
 
         items.Add(item);
