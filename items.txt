@@ -1,5 +1,2 @@
 15;Mjölk
-89;Ost
-14995;Cykel
-499995;Bil
-9995;Pingisbord
+47;Ost

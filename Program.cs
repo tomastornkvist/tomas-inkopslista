@@ -1,4 +1,4 @@
-ShoppingList list = new ShoppingList("items.txt");
+ShoppingList list = new ShoppingList("items.txt", 100);
 list.Load();
 
 while (true)
@@ -32,7 +32,10 @@ while (true)
         {
             try
             {
-                list.Add(new Item(name, price));
+                if (!list.Add(new Item(name, price)))
+                {
+                    Console.WriteLine("Varan lades inte till, eftersom inköpslistan då hade övskridit budgeten.");
+                }
             }
 
             // Catch the ArgumentOutOfRangeException first, because

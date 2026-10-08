@@ -3,15 +3,23 @@ class ShoppingList
 {
     private List<Item> items = new List<Item>();
     private string path;
+    public int Budget { get; private set; }
 
-    public ShoppingList(string path)
+    public ShoppingList(string path, int budget)
     {
         this.path = path;
+        Budget = budget;
     }
 
-    public void Add(Item item)
+    // Returns true if the item is added to the list and
+    // false if there's no room for it in the budget.
+    public bool Add(Item item)
     {
+        if (Total() + item.Price > Budget)
+            return false;
+
         items.Add(item);
+        return true;
     }
 
     // Removes the item the user sees as number 1, 2, 3 ...
