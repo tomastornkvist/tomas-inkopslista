@@ -103,4 +103,4 @@ Added Budget to `ShoppingList`.
 
 `ShoppingList.Add()` returns true when a new item is added and false if it's not added because it would break the budget.
 
-I chose to go with returning a boolean, because it's simple and logical. The addition of the item failed, therefore it returned false. It's easy to handle in Program.cs, there's no need to catch an exception.
+I chose to go with returning a boolean to handle the budget control, because it's simple and logical. The addition of the item failed, therefore it returned false. It's easy to handle in Program.cs, there's no need to catch an exception.
