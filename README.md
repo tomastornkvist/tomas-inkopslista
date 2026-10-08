@@ -115,7 +115,7 @@ I chose to go with returning a boolean to handle the budget control, because it'
 
 ---
 
-## UML diagram
+## Class diagram
 
 ```mermaid
 classDiagram
