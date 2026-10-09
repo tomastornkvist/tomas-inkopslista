@@ -15,7 +15,7 @@ class ShoppingList
     // false if there's no room for it in the budget.
     public bool Add(Item item)
     {
-        if (Total() + item.Price > budget)
+        if (budget > 0 && Total() + item.Price > budget)
             return false;
 
         items.Add(item);
@@ -58,6 +58,8 @@ class ShoppingList
 
     public void Print()
     {
+        Console.WriteLine($"Budget: {budget}");
+
         for (int i = 0; i < items.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {items[i]}");
@@ -69,7 +71,9 @@ class ShoppingList
     // Writes one item per line, as "price;name".
     public void Save()
     {
-        List<string> lines = new List<string>();
+        // Save the budget to the file. Reverse the name and amount, so
+        // it won't be seen as an item if it's not supported when read.
+        List<string> lines = [$"budget;{budget}"];
 
         foreach (Item item in items)
         {
@@ -119,6 +123,18 @@ class ShoppingList
                 // We need at least price and name.
                 if (parts.Length >= 2)
                 {
+                    // Load the budget from the file.
+                    if (parts[0].ToLower() == "budget")
+                    {
+                        int tmp;
+                        if (int.TryParse(parts[1], out tmp))
+                            budget = tmp;
+                        else
+                            budget = 0;
+
+                        continue;
+                    }
+
                     // What if the price is in a wrong format.
                     int price;
                     if (int.TryParse(parts[0], out price))

@@ -1,3 +1,4 @@
+budget;200
 15;Mjölk
 47;Ost
 12;Apelsin
