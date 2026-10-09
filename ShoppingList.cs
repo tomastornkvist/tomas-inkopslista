@@ -73,28 +73,27 @@ class ShoppingList
     }
 
     // Writes one item per line, as "price;name".
+    // public void Save()
     public void Save()
     {
-        // Save the budget to the file. Reverse the name and amount, so
-        // it won't be seen as an item if it's not supported when read.
-        List<string> lines = [$"budget;{budget}"];
-
-        foreach (Item item in items)
-        {
-            lines.Add($"{item.Price};{item.Name}");
-        }
-
         try
         {
-            // Use Environment.NewLine for line breaks, both here
-            // and in Load(), to follow the system standard.
-            File.WriteAllText(path, string.Join(Environment.NewLine, lines) + Environment.NewLine);
+            using StreamWriter sw = new(path);
+
+            // Save the budget to the file. Reverse the name and amount, so
+            // it won't be seen as an item if it's not supported when read.
+            sw.WriteLine($"budget;{budget}");
+
+            foreach (Item item in items)
+            {
+                sw.WriteLine($"{item.Price};{item.Name}");
+            }
         }
 
-        // Catch specific exceptions, not just the universal Exception.
+        // Catch specific exceptions, not the base class Exception.
         catch (IOException)
         {
-            Console.WriteLine("Ett filsystemfel orsakade att filen inte kunde sparas.");
+            Console.WriteLine($"Ett filsystemfel orsakade att {path} inte kunde sparas.");
             return;
         }
         catch (UnauthorizedAccessException)
@@ -109,18 +108,13 @@ class ShoppingList
     // Reads the file back into the list.
     public void Load()
     {
-        string text;
-
-        // Added try/catch to handle when items.txt doesn't exist.
+        // Using try/catch to handle when items.txt doesn't exist.
         try
         {
-            text = File.ReadAllText(path);
+            using StreamReader sr = new(path);
 
-            // Use Environment.NewLine for line breaks, both here
-            // and in Save(), to follow the system standard.
-            string[] lines = text.Split(Environment.NewLine);
-
-            foreach (string line in lines)
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
                 string[] parts = line.Split(';');
 
@@ -158,6 +152,11 @@ class ShoppingList
             // Catch when items.txt doesn't exist.
             Console.WriteLine("Inköpslistan finns inte. Försöker skapa den.");
             Save();
+        }
+        catch (IOException)
+        {
+            // Catch all other exceptions from reading the file.
+            Console.WriteLine($"Ett filsystemfel orsakade att {path} inte kunde läsas.");
         }
     }
 }

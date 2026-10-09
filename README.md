@@ -123,6 +123,10 @@ Saves the budget in items.txt, together with the shopping list. The name and amo
 
 *BudgetTooLowException* is thrown when the budget is lower than 50kr.
 
+### using
+
+I had to change how `ShoppingList.Save()` and `ShoppingList.Load()` writes and reads items.txt to make *using* useful. `ShoppingList.Save()` now use a *StreamWriter* and `ShoppingList.Load()` use a *StreamReader*.
+
 ## My own ideas
 
 ### Autosave the shopping list
