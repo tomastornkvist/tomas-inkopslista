@@ -1,2 +1,5 @@
 15;Mjölk
 47;Ost
+12;Apelsin
+25;Smör
+1;Kola

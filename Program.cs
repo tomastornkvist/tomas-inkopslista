@@ -8,9 +8,9 @@ while (true)
     Console.WriteLine();
     Console.WriteLine("1. Lägg till vara");
     Console.WriteLine("2. Ta bort vara");
-    Console.WriteLine("3. Spara");
-    Console.WriteLine("4. Sök vara");
-    Console.WriteLine("5. Avsluta");
+    // Console.WriteLine("3. Spara");
+    Console.WriteLine("3. Sök vara");
+    Console.WriteLine("4. Avsluta");
     Console.Write("Välj: ");
 
     // Use int.TryParse() to avoid a crash when user
@@ -79,11 +79,11 @@ while (true)
             Console.WriteLine("Var vänlig och ange ett giltigt nummer.");
         }
     }
+    // else if (choice == 3)
+    // {
+    //     list.Save();
+    // }
     else if (choice == 3)
-    {
-        list.Save();
-    }
-    else if (choice == 4)
     {
         Console.Write("Namn att söka efter: ");
         string wanted = Console.ReadLine();
@@ -98,8 +98,10 @@ while (true)
             Console.WriteLine($"Hittade: {found}");
         }
     }
-    else if (choice == 5)
+    else if (choice == 4)
     {
+        // Save the list when we exit, so there's no way to forget.
+        list.Save();
         break;
     }
 }

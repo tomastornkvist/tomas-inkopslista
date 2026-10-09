@@ -104,8 +104,6 @@ class ShoppingList
         string text;
 
         // Added try/catch to handle when items.txt doesn't exist.
-        // The catch (Exception e) helped me identify the problem
-        // with the empty line at the end of items.txt.
         try
         {
             text = File.ReadAllText(path);

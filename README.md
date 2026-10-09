@@ -113,6 +113,10 @@ Added Budget to `ShoppingList`.
 
 I chose to go with returning a boolean to handle the budget control, because it's simple and logical. The addition of the item failed, therefore it returned false. It's easy to handle in Program.cs, there's no need to catch an exception.
 
+## My own ideas
+
+Save the list automatically when exiting the program. This way you won't make a bunch of changes and lose them because you forgot to save the list.
+
 ---
 
 ## Class diagram
