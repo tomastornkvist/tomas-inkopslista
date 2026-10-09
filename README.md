@@ -105,6 +105,8 @@ The setters for Name and Price have been removed, so it's not possible to set fa
 
 Program.cs catches both exceptions. It has to catch *ArgumentOutOfRangeException* first, because it inherits *ArgumentException*. If the compiler allowed *ArgumentException* to be caught first, it would catch both.
 
+Commit hash: 3dcecca4ec5246ca473497ba872b05f97637a254
+
 ### Budget
 
 Added Budget to `ShoppingList`.
@@ -113,19 +115,27 @@ Added Budget to `ShoppingList`.
 
 I chose to go with returning a boolean to handle the budget control, because it's simple and logical. The addition of the item failed, therefore it returned false. It's easy to handle in Program.cs, there's no need to catch an exception.
 
+Commit hash: 3549f54836d4d7cc06490038396ba9398204c74b
+
 ## Extra functionality (not mandatory)
 
 ### Save the budget
 
 Saves the budget in items.txt, together with the shopping list. The name and amount is reversed, so it won't be mistaken for an item in case it's not supported when the file is loaded.
 
+Commit hash: a92630245d1787f4491c9ec0b94e3f383598e58e
+
 ### BudgetTooLowException
 
 *BudgetTooLowException* is thrown when the budget is lower than 50kr.
 
+Commit hash: 10557d6486905a4e758a5bdb8276ef4352a60896
+
 ### using
 
 I had to change how `ShoppingList.Save()` and `ShoppingList.Load()` writes and reads items.txt to make *using* useful. `ShoppingList.Save()` now use a *StreamWriter* and `ShoppingList.Load()` use a *StreamReader*.
+
+Commit hash: efc26409cb7b77eb2dd96f2820cb4b2532da8c0a
 
 ## My own ideas
 
@@ -133,9 +143,13 @@ I had to change how `ShoppingList.Save()` and `ShoppingList.Load()` writes and r
 
 Save the list automatically when exiting the program. This way you won't make a bunch of changes and lose them because you forgot to save the list.
 
+Commit hash: b0540492a3a729f2a5ac53ed4aff89c915c94307
+
 ---
 
 ## Class diagram
+
+Commit hash: 6c27862bd3e5ffcaf1770c5aa403973dc51f13ad
 
 ```mermaid
 classDiagram
