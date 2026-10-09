@@ -1,5 +1,14 @@
-ShoppingList list = new ShoppingList("items.txt", 100);
-list.Load();
+ShoppingList list;
+try
+{
+    list = new ShoppingList("items.txt", 100);
+    list.Load();
+}
+catch (BudgetTooLowException e)
+{
+    Console.WriteLine(e.Message);
+    return;
+}
 
 while (true)
 {

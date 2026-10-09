@@ -119,6 +119,10 @@ I chose to go with returning a boolean to handle the budget control, because it'
 
 Saves the budget in items.txt, together with the shopping list. The name and amount is reversed, so it won't be mistaken for an item in case it's not supported when the file is loaded.
 
+### BudgetTooLowException
+
+*BudgetTooLowException* is thrown when the budget is lower than 50kr.
+
 ## My own ideas
 
 ### Autosave the shopping list

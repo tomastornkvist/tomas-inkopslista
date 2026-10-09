@@ -5,8 +5,12 @@ class ShoppingList
     private string path;
     public int budget { get; private set; }
 
+    // Throws BudgetTooLowException.
     public ShoppingList(string path, int budget)
     {
+        if (budget < 50)
+            throw new BudgetTooLowException("Den måste vara minst 50 kr.");
+
         this.path = path;
         this.budget = budget;
     }
@@ -58,7 +62,7 @@ class ShoppingList
 
     public void Print()
     {
-        Console.WriteLine($"Budget: {budget}");
+        Console.WriteLine($"Budget: {budget} kr");
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -128,7 +132,12 @@ class ShoppingList
                     {
                         int tmp;
                         if (int.TryParse(parts[1], out tmp))
+                        {
+                            if (tmp < 50)
+                                throw new BudgetTooLowException(
+                                    $"Den måste vara minst 50 kr. Ändra den på första raden i {path}.");
                             budget = tmp;
+                        }
                         else
                             budget = 0;
 
